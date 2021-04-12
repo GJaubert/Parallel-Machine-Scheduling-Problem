@@ -4,14 +4,14 @@ Task::Task() {
   visited_ = false;
   processTime_ = 0;
   setup_ = 0;
-  tct_ = 0;
+  c_ = 0;
 }
 
 Task::Task(int id, int processTime) {
   id_ = id;
   processTime_ = processTime;
   visited_ = false;
-  tct_ = 0;
+  c_ = 0;
 }
 
 Task::~Task() {}
@@ -24,12 +24,12 @@ void Task::setVisited(bool state) {
   visited_ = state;
 }
 
-void Task::setTctTime(int setupTime, int previousTime) {
-  tct_ = setupTime + previousTime + processTime_;
+void Task::setCTime(int setupTime, int previousTime) {
+  c_ = setupTime + previousTime + processTime_;
 }
 
-int Task::getTaskTct() {
-  return tct_;
+int Task::getTaskC() {
+  return c_;
 }
 
 bool Task::getVisited() {

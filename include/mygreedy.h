@@ -6,7 +6,7 @@
 class MyGreedy : public Strategy {
   virtual std::vector<Machine> computePmspSolution(Pmsp pmspObject);
   int getMinTask(std::vector<Task>& t, table setup, int originTask);
-  int getMinMachine(std::vector<Machine> m);
+  int getMinMachine(std::vector<Machine> m, table setup);
 };
 
 #endif

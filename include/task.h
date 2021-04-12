@@ -6,7 +6,7 @@
 class Task {
   private:
     int id_;
-    int tct_;
+    int c_;
     int processTime_;
     int setup_;
     bool visited_;
@@ -14,9 +14,9 @@ class Task {
     Task();
     Task(int id, int processTime);
     ~Task();
-    int getTaskTct();
+    int getTaskC();
     int getProcessTime();
-    void setTctTime(int setupTime, int previousTime);
+    void setCTime(int setupTime, int previousTime);
     void setVisited(bool state);
     bool getVisited();
     int getSetupTime();

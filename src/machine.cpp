@@ -14,7 +14,7 @@ int Machine::getTct() {
   //std::cout << "get: " << tct_ << "\n"; 
   int totalTct = 0;
   for (int i = 0; i < tasks.size(); i++) {
-    totalTct += tasks[i].getTaskTct();
+    totalTct += tasks[i].getTaskC();
   } 
   return totalTct;
 }
