@@ -6,7 +6,7 @@ int main(int args, char* argv[]) {
       throw std::string("Error: argument required\n"); 
     Pmsp problem(argv[1], 0);
     problem.computeSolution();
-    problem.printSolution();
+    problem.printSolution(1);
     return 0;
   } catch(std::string err) {
     std::cout << err;

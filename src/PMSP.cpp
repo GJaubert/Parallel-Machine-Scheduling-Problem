@@ -4,6 +4,10 @@ Pmsp::Pmsp(std::string fileName, int algorithm) {
   switch (algorithm)
   {
   case 0:
+    algorithm_ = std::make_shared<MyGreedy>();
+    break;
+
+  case 1:
     algorithm_ = std::make_shared<Greedy>();
     break;
   
@@ -81,7 +85,7 @@ void Pmsp::computeSolution() {
   S = algorithm_->computePmspSolution(*this);
 }
 
-void Pmsp::printSolution() {
+void Pmsp::printSolution(int algorithmType) {
   std::cout << "Los resultados son: \n"; 
   for (int i = 0; i < S.size(); i++) {
     std::cout << "Maquina nº" << i + 1 << ": {";
@@ -90,12 +94,22 @@ void Pmsp::printSolution() {
     }
     std::cout << "}\n";
   }
-  std::cout << "El valor de z es: " << getZ() << "\n";
+  if (algorithmType == 0)
+    z_ = getZ();
+  else
+    z_ = getZClassic();
+  std::cout << "El valor de z es: " << z_ << "\n";
 }
-
 int Pmsp::getZ() {
   for (int i = 0; i < S.size(); i++) {
     z_ += S[i].getTct();
+  }
+  return z_;
+}
+
+int Pmsp::getZClassic() {
+  for (int i = 0; i < S.size(); i++) {
+    z_ += S[i].getTctClassic(setupTime);
   }
   return z_;
 }

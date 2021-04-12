@@ -8,6 +8,7 @@
 #include <memory>
 #include "task.h"
 #include "machine.h"
+#include "mygreedy.h"
 #include "greedy.h"
 
 using table = std::vector<std::vector<int>>;
@@ -29,9 +30,10 @@ class Pmsp {
     std::vector<std::vector<int>> getSetupTime();
     bool allVisited();
     int getM();
-    void printSolution();
+    void printSolution(int algorithmType);
     void computeSolution();
     int getZ();
+    int getZClassic();
 };
 
 #endif

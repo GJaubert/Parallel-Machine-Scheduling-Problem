@@ -8,6 +8,7 @@ class Task {
     int id_;
     int tct_;
     int processTime_;
+    int setup_;
     bool visited_;
   public:
     Task();
@@ -16,8 +17,10 @@ class Task {
     int getTaskTct();
     int getProcessTime();
     void setTctTime(int setupTime, int previousTime);
-    void setVisited();
+    void setVisited(bool state);
     bool getVisited();
+    int getSetupTime();
+    void setSetupTime(int time);
     int getId();
 };
 

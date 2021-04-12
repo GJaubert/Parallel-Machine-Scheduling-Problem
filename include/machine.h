@@ -14,6 +14,7 @@ class Machine {
     std::vector<Task>& getTasks();
     int getTct();
     void updateTct(int time);
+    int getTctClassic(std::vector<std::vector<int>> setupTable);
 };
 
 #endif
