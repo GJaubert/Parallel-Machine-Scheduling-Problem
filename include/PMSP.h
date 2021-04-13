@@ -10,6 +10,7 @@
 #include "machine.h"
 #include "mygreedy.h"
 #include "greedy.h"
+#include "grasp.h"
 
 using table = std::vector<std::vector<int>>;
 class Pmsp {
@@ -17,6 +18,7 @@ class Pmsp {
     int nTasks;
     int mMachines;
     int z_;
+    int k_;
     std::vector<Machine> S;
     std::vector<Task> taskVector;
     table setupTime;
@@ -30,6 +32,7 @@ class Pmsp {
     std::vector<std::vector<int>> getSetupTime();
     bool allVisited();
     int getM();
+    int getK();
     void printSolution(int algorithmType);
     void computeSolution();
     int getZ();

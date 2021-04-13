@@ -1,5 +1,6 @@
 #ifndef STRATEGY
 #define STRATEGY
+#define BIG_NUMBER 9999
 #include <vector>
 
 class Machine;

@@ -10,7 +10,11 @@ Pmsp::Pmsp(std::string fileName, int algorithm) {
   case 1:
     algorithm_ = std::make_shared<Greedy>();
     break;
-  
+  case 2:
+    k_ = 5;
+    algorithm_ = std::make_shared<Grasp>();
+    break;
+
   default:
     throw std::string("No algorithm given");
     break;
@@ -66,6 +70,10 @@ std::vector<Task>& Pmsp::getTasks() {
 
 std::vector<std::vector<int>> Pmsp::getSetupTime() {
   return setupTime;
+}
+
+int Pmsp::getK() {
+  return k_;
 }
 
 bool Pmsp::allVisited() {
