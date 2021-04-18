@@ -15,7 +15,7 @@ std::vector<Machine> Grasp::computePmspSolution(Pmsp pmspObject){
     getMinTask(pmspObject.getTasks(), pmspObject.getSetupTime(), pmspObject.getS(), pmspObject.getK());
   }
   pmspObject.printSolution(1);
-  greedyImprovement(pmspObject.getTasks(), pmspObject.getSetupTime(), pmspObject.getS(), pmspObject.getS());
+  greedyImprovement(pmspObject);
   return pmspObject.getS();
 }
 
@@ -89,64 +89,62 @@ void Grasp::insertRandom(std::vector<Task>& t, std::vector<Machine>& machines, s
   t[bestK[RandomIndex].k_].setVisited(true);
 }
 
-void Grasp::greedyImprovement(std::vector<Task>& t, table setup, std::vector<Machine>& machine, std::vector<Machine> S) {
-  interMachineSwap(machine[0].getTasks(), machine[1].getTasks(), 0, 1);
-  for (int i = 0; i < machine[0].getTasks().size(); i++) {
-    std::cout << machine[0].getTasks().at(i).getId() << " ";
+void Grasp::greedyImprovement(Pmsp pmspObject) {
+  interMachineSwap(pmspObject.getS().at(0).getTasks(), pmspObject.getS().at(1).getTasks(), 0, 1);
+  for (int i = 0; i < pmspObject.getS().at(0).getTasks().size(); i++) {
+    std::cout << pmspObject.getS().at(0).getTasks().at(i).getId() << " ";
   }
   std::cout << "\n";
-  for (int i = 0; i < machine[1].getTasks().size(); i++) {
-    std::cout << machine[1].getTasks().at(i).getId() << " ";
+  for (int i = 0; i < pmspObject.getS().at(1).getTasks().size(); i++) {
+    std::cout << pmspObject.getS().at(1).getTasks().at(i).getId() << " ";
   }
   std::cout << "\n\n";
-  interMachineSwap(machine[0].getTasks(), machine[1].getTasks(), 0, 2);
-  for (int i = 0; i < machine[0].getTasks().size(); i++) {
-    std::cout << machine[0].getTasks().at(i).getId() << " ";
+  interMachineSwap(pmspObject.getS().at(0).getTasks(), pmspObject.getS().at(1).getTasks(), 0, 2);
+  for (int i = 0; i < pmspObject.getS().at(0).getTasks().size(); i++) {
+    std::cout << pmspObject.getS().at(0).getTasks().at(i).getId() << " ";
   }
   std::cout << "\n";
-  for (int i = 0; i < machine[1].getTasks().size(); i++) {
-    std::cout << machine[1].getTasks().at(i).getId() << " ";
+  for (int i = 0; i < pmspObject.getS().at(1).getTasks().size(); i++) {
+    std::cout << pmspObject.getS().at(1).getTasks().at(i).getId() << " ";
   }
   std::cout << "\n\n";
-  interMachineSwap(machine[0].getTasks(), machine[1].getTasks(), 0, machine[1].getTasks().size() - 1);
-  for (int i = 0; i < machine[0].getTasks().size(); i++) {
-    std::cout << machine[0].getTasks().at(i).getId() << " ";
+  interMachineSwap(pmspObject.getS().at(0).getTasks(), pmspObject.getS().at(1).getTasks(), 0, pmspObject.getS().at(1).getTasks().size() - 1);
+  for (int i = 0; i < pmspObject.getS().at(0).getTasks().size(); i++) {
+    std::cout << pmspObject.getS().at(0).getTasks().at(i).getId() << " ";
   }
   std::cout << "\n";
-  for (int i = 0; i < machine[1].getTasks().size(); i++) {
-    std::cout << machine[1].getTasks().at(i).getId() << " ";
+  for (int i = 0; i < pmspObject.getS().at(1).getTasks().size(); i++) {
+    std::cout << pmspObject.getS().at(1).getTasks().at(i).getId() << " ";
   }
   std::cout << "\n\n";
-  interMachineSwap(machine[1].getTasks(), machine[0].getTasks(),3, 0);
-  for (int i = 0; i < machine[0].getTasks().size(); i++) {
-    std::cout << machine[0].getTasks().at(i).getId() << " ";
+  interMachineSwap(pmspObject.getS().at(1).getTasks(), pmspObject.getS().at(0).getTasks(),3, 0);
+  for (int i = 0; i < pmspObject.getS().at(0).getTasks().size(); i++) {
+    std::cout << pmspObject.getS().at(0).getTasks().at(i).getId() << " ";
   }
   std::cout << "\n";
-  for (int i = 0; i < machine[1].getTasks().size(); i++) {
-    std::cout << machine[1].getTasks().at(i).getId() << " ";
+  for (int i = 0; i < pmspObject.getS().at(1).getTasks().size(); i++) {
+    std::cout << pmspObject.getS().at(1).getTasks().at(i).getId() << " ";
   }
   std::cout << "\n\n";
 
-
-
-  // intraMachineSwap(machine[0].getTasks(), 0, 1);
-  // for (int i = 0; i < machine[0].getTasks().size(); i++) {
-  //   std::cout << machine[0].getTasks().at(i).getId() << " ";
+  // intraMachineSwap(pmspObject.getS().at(0).getTasks(), 0, 1);
+  // for (int i = 0; i < pmspObject.getS().at(0).getTasks().size(); i++) {
+  //   std::cout << pmspObject.getS().at(0).getTasks().at(i).getId() << " ";
   // }
   // std::cout << "\n\n";
-  // intraMachineSwap(machine[0].getTasks(), 0, 2);
-  // for (int i = 0; i < machine[0].getTasks().size(); i++) {
-  //   std::cout << machine[0].getTasks().at(i).getId() << " ";
+  // intraMachineSwap(pmspObject.getS().at(0).getTasks(), 0, 2);
+  // for (int i = 0; i < pmspObject.getS().at(0).getTasks().size(); i++) {
+  //   std::cout << pmspObject.getS().at(0).getTasks().at(i).getId() << " ";
   // }
   // std::cout << "\n\n";
-  // intraMachineSwap(machine[0].getTasks(), 0, machine[0].getTasks().size() - 1);
-  // for (int i = 0; i < machine[0].getTasks().size(); i++) {
-  //   std::cout << machine[0].getTasks().at(i).getId() << " ";
+  // intraMachineSwap(pmspObject.getS().at(0).getTasks(), 0, pmspObject.getS().at(0).getTasks().size() - 1);
+  // for (int i = 0; i < pmspObject.getS().at(0).getTasks().size(); i++) {
+  //   std::cout << pmspObject.getS().at(0).getTasks().at(i).getId() << " ";
   // }
   // std::cout << "\n\n";
-  // intraMachineSwap(machine[0].getTasks(), 3, 0);
-  // for (int i = 0; i < machine[0].getTasks().size(); i++) {
-  //   std::cout << machine[0].getTasks().at(i).getId() << " ";
+  // intraMachineSwap(pmspObject.getS().at(0).getTasks(), 3, 0);
+  // for (int i = 0; i < pmspObject.getS().at(0).getTasks().size(); i++) {
+  //   std::cout << pmspObject.getS().at(0).getTasks().at(i).getId() << " ";
   // }
   // std::cout << "\n\n";
 }
