@@ -11,7 +11,7 @@ Pmsp::Pmsp(std::string fileName, int algorithm) {
     algorithm_ = std::make_shared<Greedy>();
     break;
   case 2:
-    k_ = 5;
+    k_ = 2;
     algorithm_ = std::make_shared<Grasp>();
     break;
 

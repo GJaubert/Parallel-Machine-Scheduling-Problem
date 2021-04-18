@@ -14,6 +14,8 @@ std::vector<Machine> Grasp::computePmspSolution(Pmsp pmspObject){
   while (!pmspObject.allVisited()) {
     getMinTask(pmspObject.getTasks(), pmspObject.getSetupTime(), pmspObject.getS(), pmspObject.getK());
   }
+  pmspObject.printSolution(1);
+  greedyImprovement(pmspObject.getTasks(), pmspObject.getSetupTime(), pmspObject.getS(), pmspObject.getS());
   return pmspObject.getS();
 }
 
@@ -35,15 +37,17 @@ void Grasp::getMinTask(std::vector<Task>& t, table setup, std::vector<Machine>& 
           for (int k = 0; k < t.size(); k++) { // tarea de prueba a ver si es minimo 
             if (t[k].getVisited())
               continue;
-            machines[i].getTasks().insert(machines[i].getTasks().begin() + j, t[k]);
-            tmpTct = machines[i].getTctClassic(setup);
+              //std::cout << "trying " << t[k].getId() << " in " << j << "\n";
+            //std::cout << " predict: " << machines[i].predictTct(t[k], j, setup);
+            tmpTct = machines[i].predictTct(t[k], j, setup);
+            //machines[i].getTasks().insert(machines[i].getTasks().begin() + j, t[k]);
+            //tmpTct = machines[i].getTctClassic(setup);
             if (((tmpTct - originalTct) < min)) {
               min = tmpTct - originalTct;
               newk.i_ = i;
               newk.j_ = j;
               newk.k_ = k;
             }
-            machines[i].getTasks().erase(machines[i].getTasks().begin() + j);
           }
         }
       }
@@ -83,4 +87,104 @@ void Grasp::insertRandom(std::vector<Task>& t, std::vector<Machine>& machines, s
     t[bestK[i].k_].setVisited(false);
   }
   t[bestK[RandomIndex].k_].setVisited(true);
+}
+
+void Grasp::greedyImprovement(std::vector<Task>& t, table setup, std::vector<Machine>& machine, std::vector<Machine> S) {
+  interMachineSwap(machine[0].getTasks(), machine[1].getTasks(), 0, 1);
+  for (int i = 0; i < machine[0].getTasks().size(); i++) {
+    std::cout << machine[0].getTasks().at(i).getId() << " ";
+  }
+  std::cout << "\n";
+  for (int i = 0; i < machine[1].getTasks().size(); i++) {
+    std::cout << machine[1].getTasks().at(i).getId() << " ";
+  }
+  std::cout << "\n\n";
+  interMachineSwap(machine[0].getTasks(), machine[1].getTasks(), 0, 2);
+  for (int i = 0; i < machine[0].getTasks().size(); i++) {
+    std::cout << machine[0].getTasks().at(i).getId() << " ";
+  }
+  std::cout << "\n";
+  for (int i = 0; i < machine[1].getTasks().size(); i++) {
+    std::cout << machine[1].getTasks().at(i).getId() << " ";
+  }
+  std::cout << "\n\n";
+  interMachineSwap(machine[0].getTasks(), machine[1].getTasks(), 0, machine[1].getTasks().size() - 1);
+  for (int i = 0; i < machine[0].getTasks().size(); i++) {
+    std::cout << machine[0].getTasks().at(i).getId() << " ";
+  }
+  std::cout << "\n";
+  for (int i = 0; i < machine[1].getTasks().size(); i++) {
+    std::cout << machine[1].getTasks().at(i).getId() << " ";
+  }
+  std::cout << "\n\n";
+  interMachineSwap(machine[1].getTasks(), machine[0].getTasks(),3, 0);
+  for (int i = 0; i < machine[0].getTasks().size(); i++) {
+    std::cout << machine[0].getTasks().at(i).getId() << " ";
+  }
+  std::cout << "\n";
+  for (int i = 0; i < machine[1].getTasks().size(); i++) {
+    std::cout << machine[1].getTasks().at(i).getId() << " ";
+  }
+  std::cout << "\n\n";
+
+
+
+  // intraMachineSwap(machine[0].getTasks(), 0, 1);
+  // for (int i = 0; i < machine[0].getTasks().size(); i++) {
+  //   std::cout << machine[0].getTasks().at(i).getId() << " ";
+  // }
+  // std::cout << "\n\n";
+  // intraMachineSwap(machine[0].getTasks(), 0, 2);
+  // for (int i = 0; i < machine[0].getTasks().size(); i++) {
+  //   std::cout << machine[0].getTasks().at(i).getId() << " ";
+  // }
+  // std::cout << "\n\n";
+  // intraMachineSwap(machine[0].getTasks(), 0, machine[0].getTasks().size() - 1);
+  // for (int i = 0; i < machine[0].getTasks().size(); i++) {
+  //   std::cout << machine[0].getTasks().at(i).getId() << " ";
+  // }
+  // std::cout << "\n\n";
+  // intraMachineSwap(machine[0].getTasks(), 3, 0);
+  // for (int i = 0; i < machine[0].getTasks().size(); i++) {
+  //   std::cout << machine[0].getTasks().at(i).getId() << " ";
+  // }
+  // std::cout << "\n\n";
+}
+
+void Grasp::intraMachineInsertion(std::vector<Task>& tasks, int taskPos, int position) {
+  if (position > tasks.size() - 1) {
+    throw std::string("Posicion mayor que vector en IntraMachineInsertion\n");
+  }
+  if (taskPos == position) {
+    return;
+  }
+  if (taskPos < position) {
+    tasks.insert(tasks.begin() + position + 1, tasks[taskPos]);
+    tasks.erase(tasks.begin() + taskPos);
+  } else {
+    tasks.insert(tasks.begin() + position, tasks[taskPos]);
+    tasks.erase(tasks.begin() + taskPos + 1);
+  }
+}
+
+void Grasp::interMachineInsertion(std::vector<Task>& tasks, std::vector<Task>& secondTasks, int taskPos, int position) {
+  if (position > secondTasks.size()) {
+    throw std::string("Posicion mayor que vector en InterMachineInsertion\n");
+  }
+  secondTasks.insert(secondTasks.begin() + position, tasks[taskPos]);
+  tasks.erase(tasks.begin() + taskPos);
+}
+
+void Grasp::intraMachineSwap(std::vector<Task>& tasks, int taskPos, int position) {
+  if ((taskPos > tasks.size() - 1) || (position > tasks.size() - 1)) {
+    throw std::string("Posicion o taskpos mayor que vector en intraMachineSwap\n");
+  }
+  std::iter_swap(tasks.begin() + taskPos, tasks.begin() + position);
+}
+
+void Grasp::interMachineSwap(std::vector<Task>& tasksOrig, std::vector<Task>& tasksDest, int taskPos, int position) {
+  if (position > tasksDest.size() - 1) {
+    throw std::string("Posicion mayor que vector en InterMachineInsertion\n");
+  }
+  std::iter_swap(tasksOrig.begin() + taskPos, tasksDest.begin() + position);
 }
