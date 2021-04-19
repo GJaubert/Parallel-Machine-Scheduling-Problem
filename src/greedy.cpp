@@ -8,11 +8,10 @@ std::vector<Machine> Greedy::computePmspSolution(Pmsp pmspObject){
   for (int i = 0; i < pmspObject.getM(); i++) {
     getMinTask(pmspObject.getTasks(), pmspObject.getSetupTime(), pmspObject.getS());  //obtener min de todas las tareas
   }
-  int i = 0;
   while (!pmspObject.allVisited()) {
     getMinTask(pmspObject.getTasks(), pmspObject.getSetupTime(), pmspObject.getS());
-  i++;
   }
+  pmspObject.printSolution(1, 0);
   return pmspObject.getS();
 }
 

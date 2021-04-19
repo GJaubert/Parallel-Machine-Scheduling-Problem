@@ -1,5 +1,6 @@
 #ifndef PMSP
 #define PMSP
+#define K 2
 #include <vector>
 #include <string>
 #include <fstream>
@@ -23,8 +24,11 @@ class Pmsp {
     std::vector<Task> taskVector;
     table setupTime;
     std::shared_ptr<Strategy> algorithm_;
+    int type_;
   public:
     Pmsp(std::string fileName, int algorithm);
+    Pmsp(Pmsp& inputObject); //constructor copia
+    Pmsp(const Pmsp& inputObject);
     ~Pmsp();
     void loadData(std::string fileName);
     std::vector<Machine>& getS();
@@ -33,10 +37,13 @@ class Pmsp {
     bool allVisited();
     int getM();
     int getK();
-    void printSolution(int algorithmType);
+    void printSolution(int algorithmType, int time);
     void computeSolution();
     int getZ();
     int getZClassic();
+    void setType(int type);
+    Pmsp operator=(Pmsp& inputObject);
+    Pmsp operator=(const Pmsp& inputObject);
 };
 
 #endif

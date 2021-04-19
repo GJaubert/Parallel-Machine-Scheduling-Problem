@@ -11,7 +11,7 @@ Pmsp::Pmsp(std::string fileName, int algorithm) {
     algorithm_ = std::make_shared<Greedy>();
     break;
   case 2:
-    k_ = 2;
+    k_ = K;
     algorithm_ = std::make_shared<Grasp>();
     break;
 
@@ -20,7 +20,58 @@ Pmsp::Pmsp(std::string fileName, int algorithm) {
     break;
   }
   z_ = 0;
+  type_ = 0;
   loadData(fileName);
+}
+
+Pmsp::Pmsp(Pmsp& inputObject) {
+  nTasks = inputObject.nTasks;
+  mMachines = inputObject.mMachines;
+  z_ = inputObject.z_;
+  k_ = inputObject.k_;
+  S = inputObject.S;
+  taskVector = inputObject.taskVector;
+  setupTime = inputObject.setupTime;
+  algorithm_ = inputObject.algorithm_;
+  type_ = inputObject.type_;
+}
+
+Pmsp::Pmsp(const Pmsp& inputObject) {
+  nTasks = inputObject.nTasks;
+  mMachines = inputObject.mMachines;
+  z_ = inputObject.z_;
+  k_ = inputObject.k_;
+  S = inputObject.S;
+  taskVector = inputObject.taskVector;
+  setupTime = inputObject.setupTime;
+  algorithm_ = inputObject.algorithm_;
+  type_ = inputObject.type_;
+}
+
+Pmsp Pmsp::operator=(Pmsp& inputObject) {
+  nTasks = inputObject.nTasks;
+  mMachines = inputObject.mMachines;
+  z_ = inputObject.z_;
+  k_ = inputObject.k_;
+  S = inputObject.S;
+  taskVector = inputObject.taskVector;
+  setupTime = inputObject.setupTime;
+  algorithm_ = inputObject.algorithm_;
+  type_ = inputObject.type_;
+  return *this;
+}
+
+Pmsp Pmsp::operator=(const Pmsp& inputObject) {
+  nTasks = inputObject.nTasks;
+  mMachines = inputObject.mMachines;
+  z_ = inputObject.z_;
+  k_ = inputObject.k_;
+  S = inputObject.S;
+  taskVector = inputObject.taskVector;
+  setupTime = inputObject.setupTime;
+  algorithm_ = inputObject.algorithm_;
+  type_ = inputObject.type_;
+  return *this;
 }
 
 Pmsp::~Pmsp() {
@@ -93,7 +144,7 @@ void Pmsp::computeSolution() {
   S = algorithm_->computePmspSolution(*this);
 }
 
-void Pmsp::printSolution(int algorithmType) {
+void Pmsp::printSolution(int algorithmType, int time) {
   std::cout << "Los resultados son: \n"; 
   for (int i = 0; i < S.size(); i++) {
     std::cout << "Maquina nº" << i + 1 << ": {";
@@ -107,6 +158,7 @@ void Pmsp::printSolution(int algorithmType) {
   else
     z_ = getZClassic();
   std::cout << "El valor de z es: " << z_ << "\n";
+  std::cout << "el tiempo ha sido: " << time << " ms" << "\n\n";
 }
 int Pmsp::getZ() {
   for (int i = 0; i < S.size(); i++) {
@@ -116,8 +168,13 @@ int Pmsp::getZ() {
 }
 
 int Pmsp::getZClassic() {
+  z_ = 0;
   for (int i = 0; i < S.size(); i++) {
     z_ += S[i].getTctClassic(setupTime);
   }
   return z_;
+}
+
+void Pmsp::setType(int type) {
+  type_ = type;
 }
