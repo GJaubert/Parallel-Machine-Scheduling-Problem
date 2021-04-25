@@ -10,7 +10,6 @@ Pmsp Gvns::computePmspSolution(Pmsp pmspObject) {
 }
 
 Pmsp Gvns::Shake(Pmsp pmspObject) {
-  pmspObject.printSolution(1,0);
   for (int i = 0; i < 2; i++) {
     int machineIndex = rand() % pmspObject.getS().size();
     int destinyMachineIndex = rand() % pmspObject.getS().size();

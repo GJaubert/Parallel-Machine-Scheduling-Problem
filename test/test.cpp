@@ -12,8 +12,8 @@ int main(int args, char* argv[]) {
     // std::cout << "--------------------------\n\n";
     // Pmsp problemGrasp(argv[1], 2);
     // problemGrasp.computeSolution();
-    Pmsp problemGrasp(argv[1], 3);
-    problemGrasp.computeSolution();
+    Pmsp problemGnvs(argv[1], 3);
+    problemGnvs.computeSolution();
     return 0;
   } catch(std::string err) {
     std::cout << err;

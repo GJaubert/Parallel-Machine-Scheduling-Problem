@@ -3,6 +3,7 @@
 #include "strategy.h"
 #include "grasp.h"
 #include "PMSP.h"
+#include "movements.h"
 
 class Gvns : public Strategy {
   virtual Pmsp computePmspSolution(Pmsp pmspObject);
