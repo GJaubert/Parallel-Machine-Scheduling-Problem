@@ -7,16 +7,16 @@ struct KElement {
   int k_;
 };
 
-std::vector<Machine> Grasp::computePmspSolution(Pmsp pmspObject){
-  srand (time(NULL));
-  std::cout << "Grasp construction phase: " << "\n";
-  Pmsp constructionObject(pmspObject);
+Pmsp Grasp::computePmspSolution(Pmsp pmspObject) {
+  srand(time(NULL));
+  std::cout << "Grasp construction phase\n\n";
+  Pmsp constructionObject(pmspObject);  //  Objeto creado para fase de construcción
   auto start = high_resolution_clock::now();
-  construction(constructionObject);
+  construction(constructionObject); // se hace solamente frase construcción
   auto stop = high_resolution_clock::now();
   auto duration = duration_cast<milliseconds>(stop - start);
   constructionObject.printSolution(1, duration.count());
-  std::cout << "Stop condition: fixed iterations\n";
+  std::cout << "------Stop condition: fixed iterations-------\n\n";
   for (int type = 0; type < MOVEMENT_TYPES; type++) {
     printTitle(type);
     int tmpZ = 0;
@@ -37,8 +37,7 @@ std::vector<Machine> Grasp::computePmspSolution(Pmsp pmspObject){
     auto duration = duration_cast<milliseconds>(stop - start);
     best.printSolution(1, duration.count());
   }
-  std::cout << "-----------------------------------------";
-  std::cout << "Stop condition: no improve\n";
+  std::cout << "------Stop condition: no improve-------\n\n";
   for (int type = 0; type < MOVEMENT_TYPES; type++) {
     printTitle(type);
     int tmpZ = 0;
@@ -62,7 +61,7 @@ std::vector<Machine> Grasp::computePmspSolution(Pmsp pmspObject){
     auto duration = duration_cast<milliseconds>(stop - start);
     best.printSolution(1, duration.count());
   }
-  return pmspObject.getS();
+  return pmspObject;
 }
 
 void Grasp::construction(Pmsp& pmspObject) {

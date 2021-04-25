@@ -1,6 +1,6 @@
 #ifndef PMSP
 #define PMSP
-#define K 2
+#define K 3
 #include <vector>
 #include <string>
 #include <fstream>
@@ -11,6 +11,7 @@
 #include "machine.h"
 #include "mygreedy.h"
 #include "greedy.h"
+#include "gvns.h"
 #include "grasp.h"
 
 using table = std::vector<std::vector<int>>;

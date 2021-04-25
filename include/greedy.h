@@ -2,9 +2,10 @@
 #define GREEDY
 #include "strategy.h"
 #include "PMSP.h"
+#include <chrono>
 
 class Greedy : public Strategy {
-  virtual std::vector<Machine> computePmspSolution(Pmsp pmspObject);
+  virtual Pmsp computePmspSolution(Pmsp pmspObject);
   void getMinTask(std::vector<Task>& t, table setup, std::vector<Machine>& machine);
 };
 

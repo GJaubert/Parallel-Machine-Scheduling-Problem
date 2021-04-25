@@ -1,18 +1,23 @@
 #include "../include/greedy.h"
+using namespace std::chrono;
 
-std::vector<Machine> Greedy::computePmspSolution(Pmsp pmspObject){
+Pmsp Greedy::computePmspSolution(Pmsp pmspObject) {
+  std::cout << "Classic Greedy:\n\n";
   int minTask = BIG_NUMBER;
   int minTaskIndex = -1;
   int tmpTask = 0;
   int tmpTaskValue = 0;
+  auto start = high_resolution_clock::now();
   for (int i = 0; i < pmspObject.getM(); i++) {
     getMinTask(pmspObject.getTasks(), pmspObject.getSetupTime(), pmspObject.getS());  //obtener min de todas las tareas
   }
   while (!pmspObject.allVisited()) {
     getMinTask(pmspObject.getTasks(), pmspObject.getSetupTime(), pmspObject.getS());
   }
-  pmspObject.printSolution(1, 0);
-  return pmspObject.getS();
+  auto stop = high_resolution_clock::now();
+  auto duration = duration_cast<milliseconds>(stop - start);
+  pmspObject.printSolution(1, duration.count());
+  return pmspObject;
 }
 
 void Greedy::getMinTask(std::vector<Task>& t, table setup, std::vector<Machine>& machines) {

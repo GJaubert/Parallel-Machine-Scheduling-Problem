@@ -14,6 +14,10 @@ Pmsp::Pmsp(std::string fileName, int algorithm) {
     k_ = K;
     algorithm_ = std::make_shared<Grasp>();
     break;
+  case 3:
+    k_ = K;
+    algorithm_ = std::make_shared<Gvns>();
+    break;
 
   default:
     throw std::string("No algorithm given");
@@ -78,6 +82,8 @@ Pmsp::~Pmsp() {
   //delete algorithm_;
 }
 
+
+
 void Pmsp::loadData(std::string fileName) {
   std::ifstream file;
   file.open(fileName);
@@ -141,7 +147,7 @@ int Pmsp::getM() {
 }
 
 void Pmsp::computeSolution() {
-  S = algorithm_->computePmspSolution(*this);
+  *this = algorithm_->computePmspSolution(*this);
 }
 
 void Pmsp::printSolution(int algorithmType, int time) {
