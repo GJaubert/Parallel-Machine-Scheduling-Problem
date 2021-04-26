@@ -10,7 +10,7 @@ int main(int args, char* argv[]) {
     // Pmsp problemGreedy(argv[1], 1);
     // problemGreedy.computeSolution();
     // std::cout << "--------------------------\n\n";
-    std::cout << "|    ID  | ejecución | n | movimiento | TCT | CPU | límite mejora |\n";
+    std::cout << "|    ID  | ejecución | n | movimiento | TCT | CPU | límite iteraciones |\n";
     std::cout << "|------------|------------|---|-----------|-----|-----|---------------|\n";
     Pmsp problemGrasp(argv[1], 2);
     problemGrasp.computeSolution();
