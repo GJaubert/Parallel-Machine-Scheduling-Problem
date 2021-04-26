@@ -1,8 +1,8 @@
 #ifndef GRASP
 #define GRASP
 #define MOVEMENT_TYPES 8
-#define ITERATIONS_LIMIT 10
-#define IMPROVEMENT_LIMIT 3
+#define ITERATIONS_LIMIT 3
+#define IMPROVEMENT_LIMIT 1
 #include "strategy.h"
 #include "PMSP.h"
 #include "movements.h"

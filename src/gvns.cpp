@@ -33,7 +33,7 @@ Pmsp Gvns::computePmspSolution(Pmsp pmspObject) {
       bestZGlobal = tmpZGlobal;
       bestZGlobalObject = bestZObject;
     }
-    std::cout << nIter << "\n";
+    //std::cout << nIter << "\n";
     nIter++;
   } while (nIter < N_ITER_MAX);
   auto stop = high_resolution_clock::now();
@@ -117,10 +117,10 @@ Pmsp Gvns::getGraspSolution(Pmsp pmspObject) {
   int notImprovementCounter = 0;
   Pmsp tmp(pmspObject);
   Pmsp best(pmspObject);
-  best = graspStrat->getLocalOptimal(pmspObject, 2);
+  best = graspStrat->getLocalOptimal(pmspObject, 0);
   int bestZ = best.getZ();
   for (int i = 1; i < ITERATIONS_LIMIT; i++) {
-    tmp = graspStrat->getLocalOptimal(pmspObject, 2);
+    tmp = graspStrat->getLocalOptimal(pmspObject, 0);
     tmpZ = tmp.getZ();
     if (tmp.getZ() < bestZ) {
       best = tmp;

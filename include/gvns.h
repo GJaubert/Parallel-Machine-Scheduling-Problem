@@ -2,7 +2,7 @@
 #define GVNS
 #define VND_MOVEMENTS_SET 0
 #define KMAX 5
-#define N_ITER_MAX 1000
+#define N_ITER_MAX 10
 #define BIG_NUMER 999999
 #include "strategy.h"
 #include "grasp.h"
