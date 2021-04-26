@@ -1,3 +1,14 @@
+Tipos de movimientos:
+[1] Greedy InterMachine Insert
+[2] Greedy IntraMachine Insert
+[3] Greedy InterMachine Swap
+[4] Greedy Intramachine Swap
+[5] Lazy InterMachine Insert
+[6] Lazy IntraMachine Insert
+[7] Lazy InterMachine Swap
+[8] Lazy Intramachine Swap
+
+
 LRC = 2
 
 |    ID  | ejecución | n | movimiento | TCT | CPU | límite iteraciones |
@@ -34,22 +45,6 @@ LRC = 2
 | I40j_4m_S1_1 | 2 | 40 | 6 | 7316 | 341ms | 10 |
 | I40j_4m_S1_1 | 2 | 40 | 7 | 7323 | 450ms | 10 |
 | I40j_4m_S1_1 | 2 | 40 | 8 | 7289 | 343ms | 10 |
-| I40j_6m_S1_1 | 1 | 40 | 1 | 7282 | 653ms | 10 |
-| I40j_6m_S1_1 | 1 | 40 | 2 | 7428 | 372ms | 10 |
-| I40j_6m_S1_1 | 1 | 40 | 3 | 7288 | 611ms | 10 |
-| I40j_6m_S1_1 | 1 | 40 | 4 | 7379 | 363ms | 10 |
-| I40j_6m_S1_1 | 1 | 40 | 5 | 7379 | 517ms | 10 |
-| I40j_6m_S1_1 | 1 | 40 | 6 | 7323 | 355ms | 10 |
-| I40j_6m_S1_1 | 1 | 40 | 7 | 7272 | 499ms | 10 |
-| I40j_6m_S1_1 | 1 | 40 | 8 | 7245 | 346ms | 10 |
-| I40j_6m_S1_1 | 2 | 40 | 1 | 7374 | 540ms | 10 |
-| I40j_6m_S1_1 | 2 | 40 | 2 | 7430 | 336ms | 10 |
-| I40j_6m_S1_1 | 2 | 40 | 3 | 7264 | 605ms | 10 |
-| I40j_6m_S1_1 | 2 | 40 | 4 | 7471 | 341ms | 10 |
-| I40j_6m_S1_1 | 2 | 40 | 5 | 7257 | 470ms | 10 |
-| I40j_6m_S1_1 | 2 | 40 | 6 | 7326 | 347ms | 10 |
-| I40j_6m_S1_1 | 2 | 40 | 7 | 7336 | 454ms | 10 |
-| I40j_6m_S1_1 | 2 | 40 | 8 | 7207 | 339ms | 10 |
 | I40j_6m_S1_1 | 1 | 40 | 1 | 5268 | 794ms | 10 |
 | I40j_6m_S1_1 | 1 | 40 | 2 | 5204 | 371ms | 10 |
 | I40j_6m_S1_1 | 1 | 40 | 3 | 5265 | 744ms | 10 |
