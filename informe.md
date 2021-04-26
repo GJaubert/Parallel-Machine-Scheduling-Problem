@@ -1,13 +1,12 @@
-Tipos de movimientos:
-[1] Greedy InterMachine Insert
-[2] Greedy IntraMachine Insert
-[3] Greedy InterMachine Swap
-[4] Greedy Intramachine Swap
-[5] Lazy InterMachine Insert
-[6] Lazy IntraMachine Insert
-[7] Lazy InterMachine Swap
-[8] Lazy Intramachine Swap
-
+Tipos de movimientos:  
+[1] Greedy InterMachine Insert  
+[2] Greedy IntraMachine Insert  
+[3] Greedy InterMachine Swap  
+[4] Greedy Intramachine Swap  
+[5] Lazy InterMachine Insert  
+[6] Lazy IntraMachine Insert  
+[7] Lazy InterMachine Swap  
+[8] Lazy Intramachine Swap  
 
 LRC = 2
 
