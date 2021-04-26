@@ -9,7 +9,11 @@ class Pmsp;
 using table = std::vector<std::vector<int>>;
 class Strategy {
   public:
-    virtual Pmsp computePmspSolution(Pmsp pmspObject) = 0;
+  /**
+   * Function for computing the solution
+   * @param Object Pmsp class object
+   */ 
+  virtual Pmsp computePmspSolution(Pmsp pmspObject) = 0;
 };
 
 #endif

@@ -11,7 +11,6 @@ Pmsp::Pmsp(std::string fileName, int algorithm) {
     algorithm_ = std::make_shared<Greedy>();
     break;
   case 2:
-    k_ = K;
     algorithm_ = std::make_shared<Grasp>();
     break;
   case 3:
@@ -82,7 +81,9 @@ Pmsp::~Pmsp() {
   //delete algorithm_;
 }
 
-
+void Pmsp::setK(int k) {
+  k_ = k;
+}
 
 void Pmsp::loadData(std::string fileName) {
   std::ifstream file;
@@ -183,9 +184,4 @@ int Pmsp::getZClassic() {
 
 void Pmsp::setType(int type) {
   type_ = type;
-}
-
-void Pmsp::printMarkDown(int type, int time) {
-  std::cout << "| " << "I40j_8m_S1_1 | 1 | 40 | "<< type + 1 << " | " << getZClassic() << " | " << time << "ms | " << ITERATIONS_LIMIT << " |\n";
-
 }

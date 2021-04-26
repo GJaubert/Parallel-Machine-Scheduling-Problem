@@ -8,62 +8,59 @@ struct KElement {
 };
 
 Pmsp Grasp::computePmspSolution(Pmsp pmspObject) {
+  pmspObject.setK(K);
   srand(time(NULL));
- // std::cout << "Grasp construction phase\n\n";
+  std::cout << "Grasp construction phase\n\n";
   Pmsp constructionObject(pmspObject);  //  Objeto creado para fase de construcción
   auto start = high_resolution_clock::now();
   construction(constructionObject); // se hace solamente frase construcción
   auto stop = high_resolution_clock::now();
   auto duration = duration_cast<milliseconds>(stop - start);
-  for (int i = 0; i < 2; i++) {
-    //constructionObject.printSolution(1, duration.count());
-    //std::cout << "------Stop condition: fixed iterations-------\n\n";
-    for (int type = 0; type < MOVEMENT_TYPES; type++) {
-      //printTitle(type);
-      int tmpZ = 0;
-      Pmsp tmp(pmspObject);
-      Pmsp best(pmspObject);
-      auto start = high_resolution_clock::now();
-      best = getLocalOptimal(pmspObject, type);
-      int bestZ = best.getZ();
-      for (int iteration = 1; iteration < ITERATIONS_LIMIT; iteration++) {
-        tmp = getLocalOptimal(pmspObject, type);
-        tmpZ = tmp.getZ();
-        if (tmp.getZ() < bestZ) {
-          best = tmp;
-          bestZ = tmpZ;
-        }
+  constructionObject.printSolution(1, duration.count());
+  std::cout << "------Stop condition: fixed iterations-------\n\n";
+  for (int type = 0; type < MOVEMENT_TYPES; type++) {
+    printTitle(type);
+    int tmpZ = 0;
+    Pmsp tmp(pmspObject);
+    Pmsp best(pmspObject);
+    auto start = high_resolution_clock::now();
+    best = getLocalOptimal(pmspObject, type);
+    int bestZ = best.getZ();
+    for (int iteration = 1; iteration < ITERATIONS_LIMIT; iteration++) {
+      tmp = getLocalOptimal(pmspObject, type);
+      tmpZ = tmp.getZ();
+      if (tmp.getZ() < bestZ) {
+        best = tmp;
+        bestZ = tmpZ;
       }
-      auto stop = high_resolution_clock::now();
-      auto duration = duration_cast<milliseconds>(stop - start);
-      //best.printSolution(1, duration.count());
-       best.printMarkDown(type, duration.count());
     }
-  //std::cout << "------Stop condition: no improve-------\n\n";
-    // for (int type = 0; type < MOVEMENT_TYPES; type++) {
-    //   //printTitle(type);
-    //   int tmpZ = 0;
-    //   int notImprovementCounter = 0;
-    //   Pmsp tmp(pmspObject);
-    //   Pmsp best(pmspObject);
-    //   auto start = high_resolution_clock::now();
-    //   best = getLocalOptimal(pmspObject, type);
-    //   int bestZ = best.getZ();
-    //   while (notImprovementCounter < IMPROVEMENT_LIMIT) {
-    //     tmp = getLocalOptimal(pmspObject, type);
-    //     tmpZ = tmp.getZ();
-    //     if (tmp.getZ() < bestZ) {
-    //       best = tmp;
-    //       bestZ = tmpZ;
-    //     } else {
-    //       notImprovementCounter++;
-    //     }
-    //   }
-    //   auto stop = high_resolution_clock::now();
-    //   auto duration = duration_cast<milliseconds>(stop - start);
-    //   //best.printSolution(1, duration.count());
-    //   best.printMarkDown(type, duration.count());
-    // }
+    auto stop = high_resolution_clock::now();
+    auto duration = duration_cast<milliseconds>(stop - start);
+    best.printSolution(1, duration.count());
+  }
+  std::cout << "------Stop condition: no improve-------\n\n";
+  for (int type = 0; type < MOVEMENT_TYPES; type++) {
+    printTitle(type);
+    int tmpZ = 0;
+    int noImprovementCounter = 0;
+    Pmsp tmp(pmspObject);
+    Pmsp best(pmspObject);
+    auto start = high_resolution_clock::now();
+    best = getLocalOptimal(pmspObject, type);
+    int bestZ = best.getZ();
+    while (noImprovementCounter < IMPROVEMENT_LIMIT) {
+      tmp = getLocalOptimal(pmspObject, type);
+      tmpZ = tmp.getZ();
+      if (tmp.getZ() < bestZ) {
+        best = tmp;
+        bestZ = tmpZ;
+      } else {
+        noImprovementCounter++;
+      }
+    }
+    auto stop = high_resolution_clock::now();
+    auto duration = duration_cast<milliseconds>(stop - start);
+    best.printSolution(1, duration.count());
   }
   return pmspObject;
 }

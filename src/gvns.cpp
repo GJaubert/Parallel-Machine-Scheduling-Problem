@@ -12,30 +12,61 @@ Pmsp Gvns::computePmspSolution(Pmsp pmspObject) {
   Pmsp environmentObject(pmspObject);
   Pmsp bestZObject(pmspObject);
   Pmsp bestZGlobalObject(pmspObject);
+  std::cout << "Gvns:\n\n";
   auto start = high_resolution_clock::now();
-  do {
-    k = 0;
-    Pmsp graspObject(getGraspSolution(pmspObject));
-    tmpZ = 0;
-    bestZ = graspObject.getZ();
+  if (STOP_CONDITION == 0) {
     do {
-      environmentObject = graspObject;
-      environmentObject = Vnd(Shake(environmentObject));
-      tmpZ = environmentObject.getZ();
-      if (tmpZ < bestZ) {
-        bestZObject = environmentObject;
-        bestZ = tmpZ;
+      k = 0;
+      Pmsp graspObject(getGraspSolution(pmspObject));
+      tmpZ = 0;
+      bestZ = graspObject.getZ();
+      do {
+        environmentObject = graspObject;
+        environmentObject = Vnd(Shake(environmentObject));
+        tmpZ = environmentObject.getZ();
+        if (tmpZ < bestZ) {
+          bestZObject = environmentObject;
+          bestZ = tmpZ;
+        }
+        k++;
+      } while (k < KMAX);
+      tmpZGlobal = bestZObject.getZ();
+      if (tmpZGlobal < bestZGlobal) {
+        bestZGlobal = tmpZGlobal;
+        bestZGlobalObject = bestZObject;
       }
-      k++;
-    } while (k < KMAX);
-    tmpZGlobal = bestZObject.getZ();
-    if (tmpZGlobal < bestZGlobal) {
-      bestZGlobal = tmpZGlobal;
-      bestZGlobalObject = bestZObject;
-    }
-    std::cout << nIter << "\n";
-    nIter++;
-  } while (nIter < N_ITER_MAX);
+      //std::cout << nIter << "\n";
+      nIter++;
+    } while (nIter < N_ITER_MAX);
+  }
+  if (STOP_CONDITION == 1) {
+    std::cout << "improvement";
+    int noImprovementCounter = 0;
+    do {
+      k = 0;
+      Pmsp graspObject(getGraspSolution(pmspObject));
+      tmpZ = 0;
+      bestZ = graspObject.getZ();
+      do {
+        environmentObject = graspObject;
+        environmentObject = Vnd(Shake(environmentObject));
+        tmpZ = environmentObject.getZ();
+        if (tmpZ < bestZ) {
+          bestZObject = environmentObject;
+          bestZ = tmpZ;
+        }
+        k++;
+      } while (k < KMAX);
+      tmpZGlobal = bestZObject.getZ();
+      if (tmpZGlobal < bestZGlobal) {
+        bestZGlobal = tmpZGlobal;
+        bestZGlobalObject = bestZObject;
+        noImprovementCounter = 0;
+      } else {
+        noImprovementCounter++;
+      }
+    } while (noImprovementCounter < NO_IMPROVEMENT);
+  }
   auto stop = high_resolution_clock::now();
   auto duration = duration_cast<milliseconds>(stop - start);
   bestZGlobalObject.printSolution(1, duration.count());
@@ -56,24 +87,38 @@ Pmsp Gvns::Shake(Pmsp pmspObject) {
 Pmsp Gvns::Vnd(Pmsp pmspObject) {
   bool improvement = false;
   Pmsp pmspObjectOriginal(pmspObject);
-  do {
-    for (int i = 0; i < MOVEMENT_TYPES / 2; i++) {
-      pmspObject = pmspObjectOriginal;
-      improvement = selectMovement(pmspObject, i);
-      if (improvement) {
-        pmspObjectOriginal = pmspObject;
-        break;
+  if (VND_MOVEMENTS_SET == 0) {
+    do {
+      for (int i = 0; i < MOVEMENT_TYPES / 2; i++) {
+        pmspObject = pmspObjectOriginal;
+        improvement = selectMovement(pmspObject, i);
+        if (improvement) {
+          pmspObjectOriginal = pmspObject;
+          break;
+        }
       }
-    }
-  } while (improvement);
+    } while (improvement);
+  }
+  if (VND_MOVEMENTS_SET == 1) {
+    do {
+      for (int i = 4; i < MOVEMENT_TYPES; i++) {
+        pmspObject = pmspObjectOriginal;
+        improvement = selectMovement(pmspObject, i);
+        if (improvement) {
+          pmspObjectOriginal = pmspObject;
+          break;
+        }
+      }
+    } while (improvement);
+  }
   return pmspObject;
 }
 
 bool Gvns::selectMovement(Pmsp& pmspObject, int type) {
   bool improvement = false;
   switch (type) {
-    case 3:
-      improvement = greedyImprovementInterMachineInsert(pmspObject);
+    case 0:
+      improvement = greedyImprovementIntraMachineSwap(pmspObject);
       break;
     case 1:
       improvement = greedyImprovementIntraMachineInsert(pmspObject);
@@ -81,8 +126,8 @@ bool Gvns::selectMovement(Pmsp& pmspObject, int type) {
     case 2:
       improvement = greedyImprovementInterMachineSwap(pmspObject);
       break;
-    case 0:
-      improvement = greedyImprovementIntraMachineSwap(pmspObject);
+    case 3:
+      improvement = greedyImprovementInterMachineInsert(pmspObject);
       break;
     case 4:
       improvement = lazyImprovementInterMachineInsert(pmspObject);
@@ -103,18 +148,11 @@ bool Gvns::selectMovement(Pmsp& pmspObject, int type) {
   return improvement;
 }
 
-void Gvns::interMachineSwap(std::vector<Task>& tasksOrig, std::vector<Task>& tasksDest, int taskPos, int position) {
-  if (position > tasksDest.size() - 1) {
-    throw std::string("Posicion mayor que vector en InterMachineInsertion\n");
-  }
-  std::iter_swap(tasksOrig.begin() + taskPos, tasksDest.begin() + position);
-}
-
 Pmsp Gvns::getGraspSolution(Pmsp pmspObject) {
   srand(time(NULL));
   std::shared_ptr<Grasp> graspStrat = std::make_shared<Grasp>();
   int tmpZ = 0;
-  int notImprovementCounter = 0;
+  int noImprovementCounter = 0;
   Pmsp tmp(pmspObject);
   Pmsp best(pmspObject);
   best = graspStrat->getLocalOptimal(pmspObject, 0);
