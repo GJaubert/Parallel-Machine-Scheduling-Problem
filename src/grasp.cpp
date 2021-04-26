@@ -78,33 +78,33 @@ Pmsp Grasp::getLocalOptimal(Pmsp pmspObject, int type) {
   bool improvement = false;
   do {
     switch (type) {
-    case 0:
-      improvement = greedyImprovementInterMachineInsert(pmspObject);
-      break;
-    case 1:
-      improvement = greedyImprovementIntraMachineInsert(pmspObject);
-      break;
-    case 2:
-      improvement = greedyImprovementInterMachineSwap(pmspObject);
-      break;
-    case 3:
-      improvement = greedyImprovementIntraMachineSwap(pmspObject);
-      break;
-    case 4:
-      improvement = lazyImprovementInterMachineInsert(pmspObject);
-      break;
-    case 5:
-      improvement = lazyImprovementIntraMachineInsert(pmspObject);
-      break;
-    case 6:
-      improvement = lazyImprovementInterMachineSwap(pmspObject);
-      break;
-    case 7:
-      improvement = lazyImprovementIntraMachineSwap(pmspObject);
-      break;
-    default:
-      throw std::string("GetLocalOptimal: No type found\n");
-      break;
+      case 0:
+        improvement = greedyImprovementInterMachineInsert(pmspObject);
+        break;
+      case 1:
+        improvement = greedyImprovementIntraMachineInsert(pmspObject);
+        break;
+      case 2:
+        improvement = greedyImprovementInterMachineSwap(pmspObject);
+        break;
+      case 3:
+        improvement = greedyImprovementIntraMachineSwap(pmspObject);
+        break;
+      case 4:
+        improvement = lazyImprovementInterMachineInsert(pmspObject);
+        break;
+      case 5:
+        improvement = lazyImprovementIntraMachineInsert(pmspObject);
+        break;
+      case 6:
+        improvement = lazyImprovementInterMachineSwap(pmspObject);
+        break;
+      case 7:
+        improvement = lazyImprovementIntraMachineSwap(pmspObject);
+        break;
+      default:
+        throw std::string("GetLocalOptimal: No type found\n");
+        break;
     }
   } while (improvement);
   return pmspObject;
