@@ -1,6 +1,6 @@
 #ifndef PMSP
 #define PMSP
-#define K 2
+#define K 3
 #include <vector>
 #include <string>
 #include <fstream>
