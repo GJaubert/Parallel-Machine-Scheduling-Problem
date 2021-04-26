@@ -42,6 +42,7 @@ class Pmsp {
     void computeSolution();
     int getZ();
     int getZClassic();
+    void printMarkDown(int type, int time);
     void setType(int type);
     Pmsp operator=(Pmsp& inputObject);
     Pmsp operator=(const Pmsp& inputObject);

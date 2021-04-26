@@ -33,7 +33,7 @@ Pmsp Gvns::computePmspSolution(Pmsp pmspObject) {
       bestZGlobal = tmpZGlobal;
       bestZGlobalObject = bestZObject;
     }
-    //std::cout << nIter << "\n";
+    std::cout << nIter << "\n";
     nIter++;
   } while (nIter < N_ITER_MAX);
   auto stop = high_resolution_clock::now();

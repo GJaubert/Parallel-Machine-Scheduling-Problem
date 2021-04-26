@@ -184,3 +184,8 @@ int Pmsp::getZClassic() {
 void Pmsp::setType(int type) {
   type_ = type;
 }
+
+void Pmsp::printMarkDown(int type, int time) {
+  std::cout << "| " << "I40j_2m_S1_1 | 1 | 40 | "<< type + 1 << " | " << getZClassic() << " | " << time << "ms | " << IMPROVEMENT_LIMIT << " |\n";
+
+}
