@@ -9,7 +9,6 @@ Pmsp Gvns::computePmspSolution(Pmsp pmspObject) {
   int tmpZ = 0;
   int bestZGlobal = BIG_NUMER;
   int tmpZGlobal = 0;
-  Pmsp pmspObjectOriginal(pmspObject);
   Pmsp environmentObject(pmspObject);
   Pmsp bestZObject(pmspObject);
   Pmsp bestZGlobalObject(pmspObject);
@@ -21,8 +20,7 @@ Pmsp Gvns::computePmspSolution(Pmsp pmspObject) {
     bestZ = graspObject.getZ();
     do {
       environmentObject = graspObject;
-      environmentObject = Shake(environmentObject);
-      environmentObject = Vnd(environmentObject);
+      environmentObject = Vnd(Shake(environmentObject));
       tmpZ = environmentObject.getZ();
       if (tmpZ < bestZ) {
         bestZObject = environmentObject;
@@ -47,13 +45,10 @@ Pmsp Gvns::computePmspSolution(Pmsp pmspObject) {
 Pmsp Gvns::Shake(Pmsp pmspObject) {
   for (int i = 0; i < 2; i++) {
     int machineIndex = rand() % pmspObject.getS().size();
-    int destinyMachineIndex = rand() % pmspObject.getS().size();
-    while (destinyMachineIndex == machineIndex) {
-      destinyMachineIndex = rand() % pmspObject.getS().size();
-    }
+    int destinyMachineIndex = (machineIndex < pmspObject.getS().size() - 1) ? machineIndex++ : machineIndex--;
     int originTask = rand() % pmspObject.getS().at(machineIndex).getTasks().size();
     int destinyTask = rand() % pmspObject.getS().at(destinyMachineIndex).getTasks().size();
-    interMachineSwap(pmspObject.getS().at(machineIndex).getTasks(), pmspObject.getS().at(destinyMachineIndex).getTasks(), originTask, destinyTask);
+    interMachineInsertion(pmspObject.getS().at(machineIndex).getTasks(), pmspObject.getS().at(destinyMachineIndex).getTasks(), originTask, destinyTask);
   }
   return pmspObject;
 }
@@ -77,7 +72,7 @@ Pmsp Gvns::Vnd(Pmsp pmspObject) {
 bool Gvns::selectMovement(Pmsp& pmspObject, int type) {
   bool improvement = false;
   switch (type) {
-    case 0:
+    case 3:
       improvement = greedyImprovementInterMachineInsert(pmspObject);
       break;
     case 1:
@@ -86,7 +81,7 @@ bool Gvns::selectMovement(Pmsp& pmspObject, int type) {
     case 2:
       improvement = greedyImprovementInterMachineSwap(pmspObject);
       break;
-    case 3:
+    case 0:
       improvement = greedyImprovementIntraMachineSwap(pmspObject);
       break;
     case 4:
@@ -124,14 +119,12 @@ Pmsp Gvns::getGraspSolution(Pmsp pmspObject) {
   Pmsp best(pmspObject);
   best = graspStrat->getLocalOptimal(pmspObject, 2);
   int bestZ = best.getZ();
-  while (notImprovementCounter < IMPROVEMENT_LIMIT) {
+  for (int i = 1; i < ITERATIONS_LIMIT; i++) {
     tmp = graspStrat->getLocalOptimal(pmspObject, 2);
     tmpZ = tmp.getZ();
     if (tmp.getZ() < bestZ) {
       best = tmp;
       bestZ = tmpZ;
-    } else {
-      notImprovementCounter++;
     }
   }
   return best;
