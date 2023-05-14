@@ -1,1 +1,1 @@
-Please read the [reportt](report.pdf)
+Please read the [report](report.pdf)
